@@ -16,7 +16,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.chat_app_firebase_android.Fragments.ChatFragment;
+import com.example.chat_app_firebase_android.Fragments.ChatsFragment;
 import com.example.chat_app_firebase_android.Fragments.UsersFragment;
 import com.example.chat_app_firebase_android.Model.Chat;
 import com.example.chat_app_firebase_android.Model.User;
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference("Chats");
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new ChatFragment(), "Chats");
+        viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
         viewPagerAdapter.addFragment(new UsersFragment(), "Users");
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -99,9 +99,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (unread == 0){
-                    viewPagerAdapter.addFragment(new ChatFragment(), "Chats");
+                    viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
                 } else {
-                  //  viewPagerAdapter.addFragment(new ChatsFragment(), "("+unread+") Chats");
+                    viewPagerAdapter.addFragment(new ChatsFragment(), "("+unread+") Chats");
                 }
 
                 viewPagerAdapter.addFragment(new UsersFragment(), "Users");
