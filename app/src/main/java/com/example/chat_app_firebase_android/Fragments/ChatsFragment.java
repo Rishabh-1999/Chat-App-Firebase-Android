@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.example.chat_app_firebase_android.Adapter.UserAdapter;
 import com.example.chat_app_firebase_android.Model.Chatlist;
 import com.example.chat_app_firebase_android.Model.User;
+import com.example.chat_app_firebase_android.Notification.Token;
 import com.example.chat_app_firebase_android.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -55,7 +56,7 @@ public class ChatsFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 usersList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Chatlist chatlist = snapshot.getValue(Chatlist.class);
                     usersList.add(chatlist);
                 }
@@ -69,10 +70,16 @@ public class ChatsFragment extends Fragment {
             }
         });
 
-        //updateToken(FirebaseInstanceId.getInstance().getToken());
+        updateToken(FirebaseInstanceId.getInstance().getToken());
 
 
         return view;
+    }
+
+    private void updateToken(String token){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+        Token token1 = new Token(token);
+        reference.child(fuser.getUid()).setValue(token1);
     }
 
     private void chatList() {
