@@ -1,7 +1,6 @@
 package com.example.chat_app_firebase_android.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,9 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.chat_app_firebase_android.MessageActivity;
 import com.example.chat_app_firebase_android.Model.Chat;
-import com.example.chat_app_firebase_android.Model.User;
 import com.example.chat_app_firebase_android.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -53,7 +50,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
 
         Chat chat = mChat.get(position);
-
         holder.show_message.setText(chat.getMessage());
 
         if (imageurl.equals("default")){
@@ -102,6 +98,5 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             return MSG_TYPE_LEFT;
         }
     }
-
 }
 

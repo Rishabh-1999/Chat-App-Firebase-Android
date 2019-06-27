@@ -105,15 +105,11 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setAdapter(viewPagerAdapter);
 
                 tabLayout.setupWithViewPager(viewPager);
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
-
     }
 
     @Override
@@ -132,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, StartActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 return true;
         }
-
         return false;
     }
 

@@ -33,11 +33,10 @@ import java.util.List;
 public class UsersFragment extends Fragment {
 
     RecyclerView recyclerView;
+    EditText search_users;
 
     private UserAdapter userAdapter;
     private List<User> mUsers;
-
-    EditText search_users;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

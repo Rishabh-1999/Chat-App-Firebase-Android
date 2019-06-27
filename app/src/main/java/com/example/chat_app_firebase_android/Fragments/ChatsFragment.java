@@ -36,7 +36,7 @@ public class ChatsFragment extends Fragment {
     FirebaseUser fuser;
     DatabaseReference reference;
 
-    private List<Chatlist> usersList;
+    private List<Chatlist> chatsList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,29 +49,26 @@ public class ChatsFragment extends Fragment {
 
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
-        usersList = new ArrayList<>();
+        chatsList = new ArrayList<>();
 
         reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(fuser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                usersList.clear();
+                chatsList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Chatlist chatlist = snapshot.getValue(Chatlist.class);
-                    usersList.add(chatlist);
+                    chatsList.add(chatlist);
                 }
-
                 chatList();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
         updateToken(FirebaseInstanceId.getInstance().getToken());
-
 
         return view;
     }
@@ -91,7 +88,7 @@ public class ChatsFragment extends Fragment {
                 mUsers.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     User user = snapshot.getValue(User.class);
-                    for (Chatlist chatlist : usersList){
+                    for (Chatlist chatlist : chatsList){
                         if (user.getId().equals(chatlist.getId())){
                             mUsers.add(user);
                         }
@@ -103,10 +100,7 @@ public class ChatsFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
-
-
 }

@@ -25,7 +25,11 @@
             android:textSize="20sp"
             android:textStyle="bold"/>
 
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/email"
@@ -34,7 +38,16 @@
             app:met_floatingLabel="normal"
             android:hint="Email"/>
 
-        <com.rengwuxian.materialedittext.MaterialEditText
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            app:passwordToggleEnabled="true"
+            android:focusableInTouchMode="true">
+
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/password"
@@ -42,6 +55,8 @@
             android:layout_marginTop="10dp"
             app:met_floatingLabel="normal"
             android:hint="Password"/>
+
+        </android.support.design.widget.TextInputLayout>
 
         <Button
             android:layout_width="match_parent"

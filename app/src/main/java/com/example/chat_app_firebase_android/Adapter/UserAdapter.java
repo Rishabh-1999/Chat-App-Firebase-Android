@@ -135,12 +135,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     case  "default":
                         last_msg.setText("No Message");
                         break;
-
                     default:
                         last_msg.setText(theLastMessage);
                         break;
                 }
-
                 theLastMessage = "default";
             }
 
@@ -150,5 +148,4 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             }
         });
     }
-
 }
