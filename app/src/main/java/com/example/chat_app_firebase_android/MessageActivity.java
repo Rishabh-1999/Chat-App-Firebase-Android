@@ -130,7 +130,6 @@ public class MessageActivity extends AppCompatActivity {
                     //and this
                     Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
                 }
-
                 readMesagges(fuser.getUid(), userid, user.getImageURL());
             }
 
