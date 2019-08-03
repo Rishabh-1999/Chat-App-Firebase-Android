@@ -52,6 +52,7 @@ public class ChatsFragment extends Fragment {
         chatsList = new ArrayList<>();
 
         reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(fuser.getUid());
+        reference.keepSynced(true);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

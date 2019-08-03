@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        reference.keepSynced(true);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -69,18 +70,17 @@ public class MainActivity extends AppCompatActivity {
                     Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
         final TabLayout tabLayout = findViewById(R.id.tab_layout);
         final ViewPager viewPager = findViewById(R.id.view_pager);
 
-
         reference = FirebaseDatabase.getInstance().getReference("Chats");
+        reference.keepSynced(true);
+
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -120,8 +120,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
 
+        switch (item.getItemId()){
             case  R.id.logout:
                 FirebaseAuth.getInstance().signOut();
                 // change this code beacuse your app will crash
@@ -156,8 +156,6 @@ public class MainActivity extends AppCompatActivity {
             fragments.add(fragment);
             titles.add(title);
         }
-
-        // Ctrl + O
 
         @Nullable
         @Override

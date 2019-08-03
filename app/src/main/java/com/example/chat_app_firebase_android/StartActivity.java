@@ -12,7 +12,6 @@ import com.google.firebase.auth.FirebaseUser;
 public class StartActivity extends AppCompatActivity {
 
     Button login, register;
-
     FirebaseUser firebaseUser;
 
     @Override

@@ -46,17 +46,15 @@ public class MessageActivity extends AppCompatActivity {
 
     CircleImageView profile_image;
     TextView username;
+    ImageButton btn_send;
+    EditText text_send;
+    RecyclerView recyclerView;
 
     FirebaseUser fuser;
     DatabaseReference reference;
 
-    ImageButton btn_send;
-    EditText text_send;
-
     MessageAdapter messageAdapter;
     List<Chat> mchat;
-
-    RecyclerView recyclerView;
 
     Intent intent;
 
@@ -80,7 +78,6 @@ public class MessageActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // and this
                 startActivity(new Intent(MessageActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
@@ -116,34 +113,34 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
-
         reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
+        reference.keepSynced(true);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 username.setText(user.getUsername());
-                if (user.getImageURL().equals("default")){
+                if (user.getImageURL().equals("default")) {
                     profile_image.setImageResource(R.mipmap.ic_launcher);
                 } else {
-                    //and this
                     Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
                 }
                 readMesagges(fuser.getUid(), userid, user.getImageURL());
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
         seenMessage(userid);
     }
 
-    private void seenMessage(final String userid){
+    private void seenMessage(final String userid) {
+
         reference = FirebaseDatabase.getInstance().getReference("Chats");
+        reference.keepSynced(true);
+
         seenListener = reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -156,15 +153,13 @@ public class MessageActivity extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
 
-    private void sendMessage(String sender, final String receiver, String message){
+    private void sendMessage(String sender, final String receiver, String message) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
@@ -175,7 +170,7 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("isseen", false);
 
         reference.child("Chats").push().setValue(hashMap);
-
+        reference.keepSynced(true);
 
         // add user to chat fragment
         final DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chatlist")
@@ -189,10 +184,8 @@ public class MessageActivity extends AppCompatActivity {
                     chatRef.child("id").setValue(userid);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
@@ -204,6 +197,8 @@ public class MessageActivity extends AppCompatActivity {
         final String msg = message;
 
         reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
+        reference.keepSynced(true);
+
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -213,16 +208,16 @@ public class MessageActivity extends AppCompatActivity {
                 }
                 notify = false;
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
 
     private void sendNotifiaction(String receiver, final String username, final String message){
+
         DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
+
         Query query = tokens.orderByKey().equalTo(receiver);
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -244,26 +239,25 @@ public class MessageActivity extends AppCompatActivity {
                                         }
                                     }
                                 }
-
                                 @Override
                                 public void onFailure(Call<MyResponse> call, Throwable t) {
-
                                 }
                             });
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
 
-    private void readMesagges(final String myid, final String userid, final String imageurl){
+    private void readMesagges(final String myid, final String userid, final String imageurl) {
+
         mchat = new ArrayList<>();
 
         reference = FirebaseDatabase.getInstance().getReference("Chats");
+        reference.keepSynced(true);
+
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -274,26 +268,24 @@ public class MessageActivity extends AppCompatActivity {
                             chat.getReceiver().equals(userid) && chat.getSender().equals(myid)){
                         mchat.add(chat);
                     }
-
                     messageAdapter = new MessageAdapter(MessageActivity.this, mchat, imageurl);
+
                     recyclerView.setAdapter(messageAdapter);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
 
-    private void currentUser(String userid){
+    private void currentUser(String userid) {
         SharedPreferences.Editor editor = getSharedPreferences("PREFS", MODE_PRIVATE).edit();
         editor.putString("currentuser", userid);
         editor.apply();
     }
 
-    private void status(String status){
+    private void status(String status) {
         reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
 
         HashMap<String, Object> hashMap = new HashMap<>();

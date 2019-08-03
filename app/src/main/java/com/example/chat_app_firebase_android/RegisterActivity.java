@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     MaterialEditText username, email, password;
     Button btn_register;
+    RelativeLayout relativelayout_register;
 
     FirebaseAuth auth;
     DatabaseReference reference;
@@ -43,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         btn_register = findViewById(R.id.btn_register);
+        relativelayout_register=(RelativeLayout)findViewById(R.id.relativelayout_register);
 
         auth = FirebaseAuth.getInstance();
 
@@ -64,7 +67,8 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void register(final String username, String email, String password){
+    private void register(final String username, String email, String password) {
+
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
